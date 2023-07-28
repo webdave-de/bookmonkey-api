@@ -43,7 +43,20 @@ class BooksGateway
 
         return $data;
     }
+    public function delete($isbn)
+    {
+        http_response_code(204);
 
+        $sql = "DELETE FROM `books` WHERE isbn = :isbn";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":isbn", $isbn, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return 'OK';
+    }
     public function create($data)
     {
         $sql = "INSERT INTO books(title, subtitle, isbn, abstract, numPages, author, publisher, price, cover) 
